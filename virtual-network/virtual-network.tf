@@ -120,4 +120,20 @@ resource "azurerm_windows_virtual_machine" "appvm" {
   }
 }
 
+resource "azurerm_managed_disk" "app-disk" {
+  name                 = "app-disk"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  storage_account_type = "Standard_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = "1"
+}
+
+resource "azurerm_virtual_machine_data_disk_attachment" "app-disk-attach" {
+  managed_disk_id    = azurerm_managed_disk.app-disk.id
+  virtual_machine_id = azurerm_windows_virtual_machine.appvm.id
+  lun                = "0"
+  caching            = "ReadWrite"
+}
+
 
