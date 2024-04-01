@@ -13,4 +13,5 @@ locals {
       }
     ]
   }
+  container_count = 3
 }
