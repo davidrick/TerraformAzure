@@ -20,10 +20,11 @@ resource "azurerm_storage_container" "data" {
 }
 
 resource "azurerm_storage_blob" "maintfblob" {
-  name                   = var.azurerm_storage_blob_name
+  for_each               = tomap({ sample1 = "sample1.txt", sample2 = "sample2.txt", sample3 = "sample3.txt" })
+  name                   = "${var.azurerm_storage_blob_name}${each.key}"
   storage_account_name   = var.azurerm_storage_account_name
   storage_container_name = "data0"
   type                   = "Block"
-  source                 = "main.tf"
+  source                 = "C:\\Certification\\Terraform on Azure\\TerraformAzure\\sample-blobs\\${each.value}"
   depends_on             = [azurerm_storage_container.data]
 }
