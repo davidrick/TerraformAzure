@@ -3,7 +3,6 @@ resource "azurerm_resource_group" "appgrp" {
   location = local.location
 }
 
-
 # module "blob-storage_module" {
 #   source                         = "./blob-storage"
 #   resource_group_name            = local.resource_group_name
@@ -14,8 +13,8 @@ resource "azurerm_resource_group" "appgrp" {
 #   depends_on                     = [azurerm_resource_group.appgrp]
 # }
 
-module "virtual-network" {
-  source              = "./virtual-network"
+module "networking" {
+  source              = "./networking"
   resource_group_name = azurerm_resource_group.appgrp.name
   location            = local.location
 }
