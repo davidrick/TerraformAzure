@@ -16,6 +16,7 @@ resource "azurerm_resource_group" "appgrp" {
 module "networking" {
   source              = "./networking"
   resource_group_name = azurerm_resource_group.appgrp.name
+  number_of_subnets   = var.number_of_subnets
   location            = local.location
 }
 
