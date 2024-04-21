@@ -25,3 +25,31 @@ resource "azurerm_subnet" "subnets" {
   depends_on           = [azurerm_virtual_network.app_network]
 }
 
+resource "azurerm_network_security_group" "app_nsg" {
+  name                = "app_nsg"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  security_rule {
+    name                       = "AllowRDP"
+    priority                   = 300
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "app_nsg_link" {
+  count                     = var.number_of_subnets
+  subnet_id                 = azurerm_subnet.subnets[count.index].id
+  network_security_group_id = azurerm_network_security_group.app_nsg.id
+  depends_on = [
+    azurerm_network_security_group.app_nsg,
+  azurerm_virtual_network.app_network]
+}
+
+
