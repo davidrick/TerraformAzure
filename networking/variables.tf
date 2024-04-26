@@ -23,3 +23,9 @@ variable "resource_group_name" {
   type        = string
   description = "This defines the resource group name"
 }
+
+variable "vm_password" {
+  type        = string
+  description = "This is the vm password"
+  sensitive   = true
+}

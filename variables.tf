@@ -14,9 +14,15 @@ variable "number_of_subnets" {
 }
 
 variable "number_of_machines" {
-  type=number
+  type        = number
   description = "This defines the number of virtual machines"
-  default = 2
+  default     = 2
+}
+
+variable "vm_password" {
+  type        = string
+  description = "This is the vm password"
+  sensitive   = true
 }
 
 

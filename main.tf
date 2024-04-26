@@ -19,5 +19,6 @@ module "networking" {
   number_of_subnets   = var.number_of_subnets
   number_of_machines  = var.number_of_machines
   location            = local.location
+  vm_password         = var.vm_password
 }
 
