@@ -20,6 +20,8 @@ resource "azurerm_public_ip" "app_ips" {
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
+  zones               = ["${count.index + 1}"]
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_security_group" "appnsg" {
@@ -50,9 +52,11 @@ resource "azurerm_windows_virtual_machine" "appvm" {
   name                = "app-vm${count.index}"
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                = "Standard_A1_v2"
+  size                = "Standard_D1_v2"
   admin_username      = "adminuser"
   admin_password      = "${var.vm_password}${count.index}"
+  zone                = (count.index + 1)
+
   network_interface_ids = [
     azurerm_network_interface.app_interfaces[count.index].id
   ]
@@ -87,4 +91,3 @@ resource "azurerm_windows_virtual_machine" "appvm" {
 #   lun                = "0"
 #   caching            = "ReadWrite"
 # }
-
